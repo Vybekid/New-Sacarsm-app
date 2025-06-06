@@ -6,54 +6,35 @@ from tkinter import ttk  # Import ttk for themed widgets, specifically Notebook
 class WhatSheSaysApp:
     def __init__(self, master):
         self.master = master
-        master.title("VYBEKID's Female Decoder")  # Your custom title
-        master.geometry("750x650")  # Adjust window size for more content
-        master.resizable(False, False)  # Make window non-resizable
+        # --- WINDOW BAR TITLE ---
+        master.title("Magic Decoder by VYBEKID")
+        # --- SLIMMER DIMENSIONS (WIDTH x HEIGHT) ---
+        master.geometry("450x750")
+        master.resizable(False, False)
 
         # Styling
         self.bg_color = "#f0f0f0"
         self.button_color_interpret = "#4CAF50"  # Green
         self.button_color_clear = "#f44336"  # Red
         self.button_fg = "white"
-        self.font_title = ("Helvetica", 20, "bold")  # Slightly larger title font
-        self.font_label = ("Helvetica", 13)
-        self.font_entry = ("Helvetica", 13)
-        self.font_result_header = ("Helvetica", 14, "bold", "underline")
-        self.font_result_item = ("Helvetica", 12)
+        self.font_main_overall_title = ("Helvetica", 20, "bold", "italic")  # For "For You..."
+        self.font_app_specific_title = ("Helvetica", 16, "bold")  # For "Magic Decoder by VYBEKID"
+        self.font_label = ("Helvetica", 12)
+        self.font_entry = ("Helvetica", 12)
+        self.font_result_header = ("Helvetica", 13, "bold", "underline")
+        self.font_result_item = ("Helvetica", 11)  # Slightly smaller for more items within the slimmer window
+
         self.master.config(bg=self.bg_color)
 
-        # Load all interpretations
-        self.phrase_interpretations, self.action_interpretations = self.load_interpretations()
+        # Load all interpretations (now separated correctly)
+        self.phrase_interpretations_lower, self.action_interpretations_lower = self.load_interpretations()
         self.phrase_interpretations_raw, self.action_interpretations_raw = self.load_interpretations_raw()
 
-        # Create Notebook (tabs)
-        self.notebook = ttk.Notebook(master)
-        self.notebook.pack(pady=10, expand=True, fill="both")
-
-        # Create Frames for each tab
-        self.phrase_frame = ttk.Frame(self.notebook, style="TFrame")
-        self.action_frame = ttk.Frame(self.notebook, style="TFrame")
-
-        self.phrase_frame.pack(fill="both", expand=True)
-        self.action_frame.pack(fill="both", expand=True)
-
-        self.notebook.add(self.phrase_frame, text="Phrases")
-        self.notebook.add(self.action_frame, text="Actions")
-
-        # Configure Notebook style (optional, but makes tabs look better)
-        style = ttk.Style()
-        style.theme_use("clam")  # 'clam', 'alt', 'default', 'classic'
-        style.configure("TNotebook", background=self.bg_color)
-        style.configure("TNotebook.Tab", background=self.bg_color, foreground="black", font=("Helvetica", 11, "bold"))
-        style.map("TNotebook.Tab", background=[("selected", "lightblue")], foreground=[("selected", "black")])
-        style.configure("TFrame", background=self.bg_color)
-
-        # Create widgets for each tab
-        self.create_phrase_tab_widgets(self.phrase_frame)
-        self.create_action_tab_widgets(self.action_frame)
+        # Create widgets
+        self.create_widgets()  # This method will now organize the main titles and tabs
 
     def load_interpretations(self):
-        # Master list for spoken phrases (all previous + new "Quote / Phrase" set)
+        # This method returns dictionaries with LOWERCASE keys for searching
         phrase_data = {
             "He's just a friend.": "This is the guy you should be worried about.",
             "Do whatever you want.": "You better not.",
@@ -258,7 +239,7 @@ class WhatSheSaysApp:
             "You don’t care.": "You’re not reacting the way I expected.",
             "Come over to my place.": "I’m lonely and want attention... now.",
             "It’s urgent.": "I’ve decided this is now your emergency too.",
-            # "Do whatever you want.": "Do it and suffer the fallout.", # Duplicate (original #2)
+            # "Do whatever you want.": "Do it and suffer the fallout.", # Duplicate will be handled by dictionary
             "Why don’t you ever listen?": "You didn’t guess what I *didn’t* say out loud.",
             "I just needed you to care.": "You should’ve read my mind.",
             "I’m not the problem here.": "You’re 100% the villain in this story.",
@@ -272,9 +253,9 @@ class WhatSheSaysApp:
             "Explain it to me then.": "I dare you to try.",
             "I just think it’s funny how…": "This will not be funny. It’s a trap.",
             "Don’t make me beg.": "I already am, but now I'm resentful.",
-            # "Whatever helps you sleep at night.": "You're a delusional liar and I know it.", # Duplicate (original #141)
+            # "Whatever helps you sleep at night.": "You're a delusional liar and I know it.", # Duplicate
             "I’m tired.": "I’m emotionally drained from everything you didn’t notice.",
-            # "Can we talk?": "You're in trouble.", # Duplicate (original #13)
+            "Can we talk?": "You're in trouble.",
             "It’s not about the money.": "It’s *definitely* about the money.",
             "So who is she?": "You looked at your phone weird and now I'm investigating.",
             "You really forgot?": "This matters. You should’ve remembered.",
@@ -284,15 +265,15 @@ class WhatSheSaysApp:
             "This isn't about you.": "This is 100% about you.",
             "I'm busy.": "I’m ignoring you to prove a point.",
             "I don’t want to be a burden.": "You better offer to help immediately.",
-            # "We need to talk.": "Brace yourself for emotional chaos.", # Duplicate (original #13)
+            # "We need to talk.": "Brace yourself for emotional chaos.", # Duplicate
             "No one else would put up with this.": "You're lucky I love you, barely.",
             "Oh, you're free now?": "Where were you when I needed you 2 hours ago?",
             "Don't you think it's weird that...": "I’ve already decided it’s weird and I want you to agree.",
             "It's always about you.": "Why aren’t you making it about me this time?",
-            # "I’m not mad, just surprised.": "I’m fuming.", # Duplicate (original #168)
+            # "I’m not mad, just surprised.": "I’m fuming.", # Duplicate
             "I thought you were different.": "You're disappointing me in a brand-new way.",
             "You said you’d change.": "You’ve disappointed me. Again.",
-            # "I'm not jealous.": "I’m jealous.", # Duplicate (original #29)
+            # "I'm not jealous.": "I’m jealous.", # Duplicate
             "I just needed space.": "I wanted space until you chased me.",
             "I’m not ready to talk about it.": "I want you to *force* me to talk about it.",
             "You don’t even know me.": "You should’ve known that would upset me.",
@@ -300,9 +281,9 @@ class WhatSheSaysApp:
             "I’m not doing this again.": "We are absolutely doing this again.",
             "You don’t have to prove anything.": "Actually, you do.",
             "Don’t call me.": "Call me anyway, I’ll ignore it, but I’ll notice.",
-            # "It’s whatever.": "It’s very much *not* whatever.", # Duplicate (original #5)
+            # "It’s whatever.": "It’s very much *not* whatever.", # Duplicate
             "I just didn’t expect that from you.": "I expected you to be better.",
-            # "I’m over it.": "Still bothered, possibly for life.", # Duplicate (original #21)
+            # "I’m over it.": "Still bothered, possibly for life.", # Duplicate
             "Wow, you really went there.": "I can't believe you actually said that.",
             "I hope you have fun.": "You better not have fun without me.",
             "I’m not needy.": "Please pay attention to me immediately.",
@@ -312,25 +293,25 @@ class WhatSheSaysApp:
             "Just forget it, seriously.": "I will never forget this.",
             "I’m just venting.": "I need emotional backup, not logic.",
             "It was just a joke.": "It wasn’t, but now I’m backtracking.",
-            # "I’m not like other girls.": "I am, but I’m branding myself.", # Duplicate (original #36)
-            # "You’re so dramatic.": "You finally matched my energy.", # Duplicate (original #172, was overdramatic)
+            # "I’m not like other girls.": "I am, but I’m branding myself.", # Duplicate
+            # "You’re so dramatic.": "You finally matched my energy.", # Duplicate
             "It’s complicated.": "You won’t like the truth.",
-            # "I’m totally chill.": "I’m actively suppressing rage.", # Duplicate (original #53)
+            # "I’m totally chill.": "I’m actively suppressing rage.", # Duplicate
             "Don’t lie to me.": "I already know the truth. Test me.",
             "You’ll regret that.": "Threat detected.",
             "I don’t care what she said.": "I care deeply and I’m judging her and you.",
-            # "We’ll see.": "No.", # Duplicate (original #25)
+            # "We’ll see.": "No.", # Duplicate
             "That’s not important right now.": "It’s very important, but I want control of the timing.",
             "I don't do drama.": "I *thrive* on drama but pretend to hate it.",
             "I’m not one of those girls.": "I’m exactly that girl but with better marketing.",
             "Why are you being weird?": "Why aren’t you behaving how I want you to?",
             "You know what? Never mind.": "You better figure it out without me saying it.",
             "We’ll talk later.": "You're not off the hook, just on hold.",
-            # "No, really, go have fun.": "Don’t you dare enjoy yourself too much.", # Duplicate (original #7)
+            # "No, really, go have fun.": "Don’t you dare enjoy yourself too much.", # Duplicate
             "I’ve moved on.": "I absolutely haven’t.",
-            # "You're overthinking it.": "You're close to the truth and I’m nervous.", # Duplicate (original #77)
+            # "You're overthinking it.": "You're close to the truth and I’m nervous.", # Duplicate
             "I don’t mean to make it a big deal.": "This is a *huge* deal.",
-            # "It’s not you, it’s me.": "It’s you.", # Duplicate (original #43)
+            # "It’s not you, it’s me.": "It’s you.", # Duplicate
             "I don’t know what I want.": "I want you to prove you can figure me out.",
             "You're not getting it.": "You're absolutely not getting it and I’m losing patience.",
             "I just needed reassurance.": "You failed the test.",
@@ -338,25 +319,25 @@ class WhatSheSaysApp:
             "You made me feel crazy.": "You didn’t validate my feelings.",
             "You always turn it around.": "Stop deflecting and apologize already.",
             "You still don’t get it, do you?": "This is why I cried last week.",
-            # "I don’t want to argue.": "I absolutely do, and I will win.", # Duplicate (original #68)
+            # "I don’t want to argue.": "I absolutely do, and I will win.", # Duplicate
             "I just don’t feel heard.": "You’re not agreeing with me.",
             "That’s not even the point.": "You're winning this argument but I’m shifting topics.",
-            # "I’m done explaining.": "You're not worth the effort anymore, for now.", # Duplicate (original #192)
-            # "I’m just being honest.": "I’m being critical and hiding behind ‘honesty’.", # Duplicate (original #166)
+            # "I’m done explaining.": "You're not worth the effort anymore, for now.", # Duplicate
+            # "I’m just being honest.": "I’m being critical and hiding behind ‘honesty’.", # Duplicate
             "You don’t even care how I feel.": "You missed every cue I dropped.",
             "I need time.": "I need drama, space, and then a surprise romantic gesture.",
             "Why would I be mad about that?": "I’m furious. You fool.",
             "I’m not playing games.": "You are now officially playing my game.",
             "No, go out. I’ll be fine.": "You’ll owe me an apology and possibly flowers.",
             "I just want honesty.": "But only if I like what I hear.",
-            # "You never listen!": "You didn’t agree fast enough.", # Duplicate (original #15)
-            # "Let’s just drop it.": "Let’s pause and return to this in dramatic fashion later.", # Duplicate (original #98)
+            "You never listen!": "You didn’t agree fast enough.",
+            "Let’s just drop it.": "Let’s pause and return to this in dramatic fashion later.",
             "You always say that.": "You’ve said this twice and I memorized it.",
             "This isn’t about you.": "This is totally about you.",
             "Just trust me.": "I may or may not have caused chaos.",
             "I can't believe you.": "Oh, I believe you. I just *don’t like* you right now.",
 
-            # New Phrases (from the last two tables merged into the "Phrases" category)
+            # New Phrases from the last two tables merged into the "Phrases" category
             "I have a question...": "Prepare for an interrogation disguised as curiosity",
             "Can I ask you something?": "I already know the answer — just seeing if you'll lie",
             "Be honest with me...": "Lie, and I’ll know. Tell the truth, and I’ll still be mad",
@@ -388,40 +369,38 @@ class WhatSheSaysApp:
             "Why didn’t you tell me about that?": "You withheld information = betrayal",
             "Are you bored of me?": "Say no like your life depends on it",
             "I don't understand you.": "I *do* understand… I just don’t like what I’m hearing.",
-            # "Do what you want.": "I *dare* you to make the wrong move.", # Duplicate
-            # "I'm not mad.": "I’m boiling inside. Proceed with extreme caution.", # Duplicate
-            # "Whatever.": "Conversation over. You lost.", # Duplicate
-            # "It’s your life.": "You’re making a dumb decision and I disapprove.", # Duplicate
-            # "I’m fine.": "I’m anything *but* fine. Figure it out.", # Duplicate
-            # "You don’t get it.": "You didn’t read my mind like I expected.", # Duplicate
-            # "Forget it.": "This is not over. Just postponed.", # Duplicate
-            # "I’m just tired.": "I’m emotionally drained by *you.*", # Duplicate
-            # "If you say so.": "I don’t believe you, but okay.", # Duplicate
+            # "Do what you want.": "I *dare* you to make the wrong move.", # Duplicate (original #204)
+            # "I'm not mad.": "I’m boiling inside. Proceed with extreme caution.", # Duplicate (original #3)
+            "Whatever.": "Conversation over. You lost.",  # Duplicate (original #102)
+            # "It’s your life.": "You’re making a dumb decision and I disapprove.", # Duplicate (original #128)
+            # "I’m fine.": "I’m anything *but* fine. Figure it out.", # Duplicate (original #4)
+            "You don’t get it.": "You didn’t read my mind like I expected.",
+            # "Forget it.": "This is not over. Just postponed.", # Duplicate (original #103)
+            # "I’m just tired.": "I’m emotionally drained by *you.*", # Duplicate (original #34)
+            # "If you say so.": "I don’t believe you, but okay.", # Duplicate (original #111)
             "It’s not that deep.": "It’s *very* deep. And I’m still overthinking it.",
-            # "I guess...": "I’m disappointed but trying to suppress it.", # Duplicate
-            # "You always do this.": "I’ve been mentally noting this for weeks.", # Duplicate
-            # "Wow.": "Shock. Disappointment. A storm is brewing.", # Duplicate
-            "Okay then.": "That’s your final answer? Interesting.",
-            # "Sure.": "Absolutely not, but I’ll let you walk into the trap.", # Duplicate
-            # "Go ahead.": "I will remember this betrayal forever.", # Duplicate
-            # "I don't care.": "I care. I care so much it hurts.", # Duplicate
-            # "It’s not you, it’s me.": "It’s you. 100%. But I’m trying to be nice.", # Duplicate
+            # "I guess...": "I’m disappointed but trying to suppress it.", # Duplicate (original #17)
+            # "You always do this.": "I’ve been mentally noting this for weeks.", # Duplicate (original #193)
+            "Wow.": "Shock. Disappointment. A storm is brewing.",
+            "Okay then.": "That’s your final answer? Interesting.",  # Duplicate (original #15)
+            # "Sure.": "Absolutely not, but I’ll let you walk into the trap.", # Duplicate (original #110)
+            # "Go ahead.": "I will remember this betrayal forever.", # Duplicate (original #33)
+            # "I don't care.": "I care. I care so much it hurts.", # Duplicate (original #6)
+            # "It’s not you, it’s me.": "It’s you. 100%. But I’m trying to be nice.", # Duplicate (original #43)
             "I said what I said.": "I meant it. Deal with it.",
-            # "I'm over it.": "I am *not* over it.", # Duplicate
+            # "I'm over it.": "I am *not* over it.", # Duplicate (original #21)
             "You just don’t listen.": "You heard me but didn’t *feel* me.",
             "I don't need anyone.": "I need someone — preferably *you* — to care more.",
             "Why can’t you just talk to me?": "You’re being emotionally unavailable and I’m tired of chasing clarity.",
             "This is why I don't open up.": "You missed your chance to show empathy.",
             "Maybe we're just too different.": "I'm testing whether you'll fight for this or give up.",
             "It’s whatever, honestly.": "It’s definitely *not* whatever. I'm just done arguing.",
-            # "You never change.": "My patience is wearing thin.", # Duplicate
-            # "I just want honesty.": "I know you’re hiding something — time to confess.", # Duplicate
+            # "You never change.": "My patience is wearing thin.", # Duplicate (original #164)
+            # "I just want honesty.": "I know you’re hiding something — time to confess.", # Duplicate (original #294)
             "You wouldn’t understand.": "Try harder to understand — or at least pretend to."
         }
-        # Convert keys to lowercase for matching, handling potential duplicates by keeping the last one
-        phrase_interpretations = {k.lower(): v for k, v in phrase_data.items()}
 
-        # Separate list for actions
+        # Action data
         action_data = {
             "Sends you a photo after days of no talking": "Reminder: “I still exist, and I still look good — notice me.”",
             "Likes your old post after ghosting": "She’s breadcrumbing attention — *you’re not out of her mind yet*",
@@ -454,13 +433,15 @@ class WhatSheSaysApp:
             "Purposely lets your friend “accidentally” see her IG": "She's making moves… indirectly",
             "Sends a pic with “miss this day” caption": "The day = you. The message = respond."
         }
-        action_interpretations = {k.lower(): v for k, v in action_data.items()}
 
-        return phrase_interpretations, action_interpretations
+        # Convert keys to lowercase for internal matching (main self.interpretations)
+        phrase_interpretations_lower = {k.lower(): v for k, v in phrase_data.items()}
+        action_interpretations_lower = {k.lower(): v for k, v in action_data.items()}
+
+        return phrase_interpretations_lower, action_interpretations_lower
 
     def load_interpretations_raw(self):
-        # This method is for getting original casing for display, without lowercasing keys for matching purposes.
-        # Ensure it mirrors the structure of load_interpretations but with original casing.
+        # This method returns dictionaries with ORIGINAL casing for display
         phrase_data_raw = {
             "He's just a friend.": "This is the guy you should be worried about.",
             "Do whatever you want.": "You better not.",
@@ -838,11 +819,46 @@ class WhatSheSaysApp:
             "Sends a pic with “miss this day” caption": "The day = you. The message = respond."
         }
 
-        # Convert keys to lowercase for internal matching (main self.interpretations)
-        phrase_interpretations = {k.lower(): v for k, v in phrase_data_raw.items()}
-        action_interpretations = {k.lower(): v for k, v in action_data_raw.items()}
+        return phrase_data_raw, action_data_raw
 
-        return phrase_interpretations, action_interpretations
+    def create_widgets(self):
+        # --- NEW MAIN OVERALL TITLE ---
+        self.main_overall_title = tk.Label(self.master, text="For You,\nBecause She Won’t Say It Straight",
+                                           font=self.font_main_overall_title, bg=self.bg_color, pady=10, wraplength=400,
+                                           justify="center")
+        self.main_overall_title.pack()
+
+        # --- APP SPECIFIC TITLE (BY VYBEKID) ---
+        self.app_specific_title = tk.Label(self.master, text="Magic Decoder by VYBEKID",
+                                           font=self.font_app_specific_title, bg=self.bg_color, fg="#555555", pady=5)
+        self.app_specific_title.pack()
+
+        # Create Notebook (tabs)
+        self.notebook = ttk.Notebook(self.master)
+        # Pack the notebook after the main titles
+        self.notebook.pack(pady=10, expand=True, fill="both", padx=10)  # Added padx for better spacing in slim window
+
+        # Configure Notebook style
+        style = ttk.Style()
+        style.theme_use("clam")
+        style.configure("TNotebook", background=self.bg_color)
+        style.configure("TNotebook.Tab", background=self.bg_color, foreground="black", font=("Helvetica", 11, "bold"))
+        style.map("TNotebook.Tab", background=[("selected", "lightblue")], foreground=[("selected", "black")])
+        style.configure("TFrame", background=self.bg_color)
+
+        # Create Frames for each tab
+        self.phrase_frame = ttk.Frame(self.notebook, style="TFrame")
+        self.action_frame = ttk.Frame(self.notebook, style="TFrame")
+
+        self.phrase_frame.pack(fill="both", expand=True)
+        self.action_frame.pack(fill="both", expand=True)
+
+        self.notebook.add(self.phrase_frame, text="Phrases")
+        self.notebook.add(self.action_frame, text="Actions")
+
+        # Create widgets for each tab
+        self.create_phrase_tab_widgets(self.phrase_frame)
+        self.create_action_tab_widgets(self.action_frame)
 
     def create_phrase_tab_widgets(self, frame):
         # Input Label
@@ -851,11 +867,11 @@ class WhatSheSaysApp:
         input_label.pack()
 
         # Input Entry
-        self.phrase_input_entry = tk.Entry(frame, width=70, font=self.font_entry, relief="groove")
+        self.phrase_input_entry = tk.Entry(frame, width=45, font=self.font_entry, relief="groove")  # Adjusted width
         self.phrase_input_entry.pack(pady=5)
         self.phrase_input_entry.bind("<Return>", lambda event: self._interpret_message(
             self.phrase_input_entry, self.phrase_output_text, self.phrase_output_header_label,
-            self.phrase_interpretations, self.phrase_interpretations_raw
+            self.phrase_interpretations_lower, self.phrase_interpretations_raw
         ))
 
         # Interpret Button
@@ -863,7 +879,7 @@ class WhatSheSaysApp:
                                      command=lambda: self._interpret_message(
                                          self.phrase_input_entry, self.phrase_output_text,
                                          self.phrase_output_header_label,
-                                         self.phrase_interpretations, self.phrase_interpretations_raw
+                                         self.phrase_interpretations_lower, self.phrase_interpretations_raw
                                      ),
                                      font=self.font_label, bg=self.button_color_interpret, fg=self.button_fg,
                                      activebackground="#45a049", activeforeground="white",
@@ -876,10 +892,10 @@ class WhatSheSaysApp:
         self.phrase_output_header_label.pack()
 
         # Output Text Widget
-        self.phrase_output_text = tk.Text(frame, wrap="word", height=8, width=75,
+        self.phrase_output_text = tk.Text(frame, wrap="word", height=10, width=48,  # Adjusted width/height
                                           font=self.font_result_item, bg="white", fg="blue",
                                           relief="solid", bd=1, padx=10, pady=10)
-        self.phrase_output_text.pack(pady=10, padx=20)
+        self.phrase_output_text.pack(pady=10, padx=10)  # Adjusted padx
         self.phrase_output_text.config(state="disabled")
 
         # Clear Button
@@ -899,11 +915,11 @@ class WhatSheSaysApp:
         input_label.pack()
 
         # Input Entry
-        self.action_input_entry = tk.Entry(frame, width=70, font=self.font_entry, relief="groove")
+        self.action_input_entry = tk.Entry(frame, width=45, font=self.font_entry, relief="groove")  # Adjusted width
         self.action_input_entry.pack(pady=5)
         self.action_input_entry.bind("<Return>", lambda event: self._interpret_message(
             self.action_input_entry, self.action_output_text, self.action_output_header_label,
-            self.action_interpretations, self.action_interpretations_raw
+            self.action_interpretations_lower, self.action_interpretations_raw
         ))
 
         # Interpret Button
@@ -911,7 +927,7 @@ class WhatSheSaysApp:
                                      command=lambda: self._interpret_message(
                                          self.action_input_entry, self.action_output_text,
                                          self.action_output_header_label,
-                                         self.action_interpretations, self.action_interpretations_raw
+                                         self.action_interpretations_lower, self.action_interpretations_raw
                                      ),
                                      font=self.font_label, bg=self.button_color_interpret, fg=self.button_fg,
                                      activebackground="#45a049", activeforeground="white",
@@ -924,10 +940,10 @@ class WhatSheSaysApp:
         self.action_output_header_label.pack()
 
         # Output Text Widget
-        self.action_output_text = tk.Text(frame, wrap="word", height=8, width=75,
+        self.action_output_text = tk.Text(frame, wrap="word", height=10, width=48,  # Adjusted width/height
                                           font=self.font_result_item, bg="white", fg="blue",
                                           relief="solid", bd=1, padx=10, pady=10)
-        self.action_output_text.pack(pady=10, padx=20)
+        self.action_output_text.pack(pady=10, padx=10)  # Adjusted padx
         self.action_output_text.config(state="disabled")
 
         # Clear Button
@@ -941,7 +957,7 @@ class WhatSheSaysApp:
         clear_button.pack(pady=5)
 
     def _interpret_message(self, input_entry_widget, output_text_widget, output_header_label_widget,
-                           interpretation_dict, interpretation_dict_raw):
+                           interpretation_dict_lower, interpretation_dict_raw):
         user_input_raw = input_entry_widget.get().strip()
         user_input_cleaned = user_input_raw.lower()
 
@@ -953,7 +969,7 @@ class WhatSheSaysApp:
         output_text_widget.config(state="normal")
         output_text_widget.delete(1.0, tk.END)
 
-        exact_meaning = interpretation_dict.get(user_input_cleaned, None)
+        exact_meaning = interpretation_dict_lower.get(user_input_cleaned, None)
         if exact_meaning:
             output_header_label_widget.config(text="What it *actually* means:")
             output_text_widget.insert(tk.END, exact_meaning + "\n")
@@ -962,19 +978,21 @@ class WhatSheSaysApp:
 
             search_terms = [user_input_cleaned]
             if len(user_input_cleaned.split()) > 1:
-                search_terms.extend(word for word in user_input_cleaned.split() if len(word) > 2)
-            search_terms = list(set(search_terms))
+                search_terms.extend(
+                    word for word in user_input_cleaned.split() if len(word) > 2)  # words longer than 2 chars
+            search_terms = list(set(search_terms))  # Remove duplicates
 
-            for phrase_lower, meaning in interpretation_dict.items():
+            for phrase_lower, meaning in interpretation_dict_lower.items():
                 for term in search_terms:
-                    if term in phrase_lower:
+                    if term in phrase_lower:  # Check if search term is a substring
                         original_phrase_match = next(
                             (k for k in interpretation_dict_raw.keys() if k.lower() == phrase_lower), phrase_lower)
                         possible_meanings.append((original_phrase_match, meaning))
-                        break
+                        break  # Found a match, move to next dictionary phrase
 
             if possible_meanings:
                 output_header_label_widget.config(text="Possible interpretations:")
+                # Remove duplicates and sort by length of original phrase
                 unique_meanings_tuples = list(set(possible_meanings))
                 sorted_unique_meanings = sorted(unique_meanings_tuples, key=lambda x: len(x[0]))
 
