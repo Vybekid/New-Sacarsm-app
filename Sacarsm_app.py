@@ -9,7 +9,7 @@ class WhatSheSaysApp:
         # --- WINDOW BAR TITLE ---
         master.title("Magic Decoder by VYBEKID")
         # --- SLIMMER DIMENSIONS (WIDTH x HEIGHT) ---
-        master.geometry("450x750")
+        master.geometry("450x650")
         master.resizable(False, False)
 
         # Styling
@@ -71,7 +71,7 @@ class WhatSheSaysApp:
             "Go ahead.": "If you do, you're dead.",
             "I’m just tired.": "I’m upset, but I’m not saying why.",
             "I don’t want a relationship.": "With *you*.",
-            "I'm not like other girls.": "I'm just like other girls, but I need you to think I’m not.",
+            "I'm not like other girls.": "I'm just like other girls, but I need you to think I’m not.", # This will be overwritten by new entry below
             "I’m not looking for anything serious.": "Until I find someone worth it.",
             "He’s like a brother to me.": "I hug him a little too long.",
             "Let’s just be friends.": "You’re not attractive to me.",
@@ -397,7 +397,23 @@ class WhatSheSaysApp:
             "It’s whatever, honestly.": "It’s definitely *not* whatever. I'm just done arguing.",
             # "You never change.": "My patience is wearing thin.", # Duplicate (original #164)
             # "I just want honesty.": "I know you’re hiding something — time to confess.", # Duplicate (original #294)
-            "You wouldn’t understand.": "Try harder to understand — or at least pretend to."
+            "You wouldn’t understand.": "Try harder to understand — or at least pretend to.",
+            # --- NEW PHRASES ---
+            "I don’t want to be understanding.": "I’ve been understanding for too long, now it’s your turn to suffer.",
+            "I’ll change 😂": "I might pretend to, but let’s be honest... I won’t.",
+            "It’s not even a big deal.": "It’s a huge deal. I’m already crying inside.",
+            "I don’t need you.": "I do need you — but I refuse to say it out loud.",
+            "You’re the problem.": "I’m frustrated and I’ve officially entered villain mode.",
+            "I’m not like other girls.": "But I *will* act like them in about 5 minutes.", # Overwrites previous entry
+            "You do too much.": "I’m overwhelmed, but I won’t say what exactly bothers me.",
+            "You never do anything.": "You did 8 things right, but I’m focused on the 1 thing you missed.",
+            "I’m overthinking again.": "I need you to say *everything is fine* for the 3rd time.",
+            "I feel like I’m annoying you.": "I need reassurance — now.",
+            "No one ever chooses me.": "You better choose me *right now* or I’m spiraling.",
+            "You probably like her more.": "I’m insecure today. Comfort me.",
+            "You don’t even care.": "Your face didn’t match my emotional energy. Fix it.",
+            "I’m always the one trying.": "You haven’t matched my emotional effort this week.",
+            "Maybe we should stop talking.": "I want you to beg me to stay."
         }
 
         # Action data
@@ -478,7 +494,7 @@ class WhatSheSaysApp:
             "Go ahead.": "If you do, you're dead.",
             "I’m just tired.": "I’m upset, but I’m not saying why.",
             "I don’t want a relationship.": "With *you*.",
-            "I'm not like other girls.": "I'm just like other girls, but I need you to think I’m not.",
+            "I'm not like other girls.": "I'm just like other girls, but I need you to think I’m not.", # This will be overwritten by new entry below
             "I’m not looking for anything serious.": "Until I find someone worth it.",
             "He’s like a brother to me.": "I hug him a little too long.",
             "Let’s just be friends.": "You’re not attractive to me.",
@@ -698,7 +714,7 @@ class WhatSheSaysApp:
             "Just forget it, seriously.": "I will never forget this.",
             "I’m just venting.": "I need emotional backup, not logic.",
             "It was just a joke.": "It wasn’t, but now I’m backtracking.",
-            "I’m not like other girls.": "I am, but I’m branding myself.",
+            "I’m not like other girls.": "I am, but I’m branding myself.", # This will be overwritten by new entry below
             "You’re so dramatic.": "You finally matched my energy.",
             "It’s complicated.": "You won’t like the truth.",
             "I’m totally chill.": "I’m actively suppressing rage.",
@@ -783,7 +799,23 @@ class WhatSheSaysApp:
             "This is why I don't open up.": "You missed your chance to show empathy.",
             "Maybe we're just too different.": "I'm testing whether you'll fight for this or give up.",
             "It’s whatever, honestly.": "It’s definitely *not* whatever. I'm just done arguing.",
-            "You wouldn’t understand.": "Try harder to understand — or at least pretend to."
+            "You wouldn’t understand.": "Try harder to understand — or at least pretend to.",
+            # --- NEW PHRASES ---
+            "I don’t want to be understanding.": "I’ve been understanding for too long, now it’s your turn to suffer.",
+            "I’ll change 😂": "I might pretend to, but let’s be honest... I won’t.",
+            "It’s not even a big deal.": "It’s a huge deal. I’m already crying inside.",
+            "I don’t need you.": "I do need you — but I refuse to say it out loud.",
+            "You’re the problem.": "I’m frustrated and I’ve officially entered villain mode.",
+            "I’m not like other girls.": "But I *will* act like them in about 5 minutes.", # Overwrites previous entry
+            "You do too much.": "I’m overwhelmed, but I won’t say what exactly bothers me.",
+            "You never do anything.": "You did 8 things right, but I’m focused on the 1 thing you missed.",
+            "I’m overthinking again.": "I need you to say *everything is fine* for the 3rd time.",
+            "I feel like I’m annoying you.": "I need reassurance — now.",
+            "No one ever chooses me.": "You better choose me *right now* or I’m spiraling.",
+            "You probably like her more.": "I’m insecure today. Comfort me.",
+            "You don’t even care.": "Your face didn’t match my emotional energy. Fix it.",
+            "I’m always the one trying.": "You haven’t matched my emotional effort this week.",
+            "Maybe we should stop talking.": "I want you to beg me to stay."
         }
 
         action_data_raw = {
